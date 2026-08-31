@@ -4,10 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ASCEND</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <h1>ASCEND</h1>
-<link rel="stylesheet" href="style.css">
-  <p>Your AI companion for truth, growth, and purpose.</p>
+
+  <main class="app">
+
+    <header class="topbar">
+      <div class="logo">ASCEND</div>
+      <div class="status">● Online</div>
+    </header>
+
+    <section class="welcome">
+      <h1>What are you seeking?</h1>
+      <p>
+        Ask a question. Explore an idea. Think deeper.
+        ASCEND is here to help you move forward.
+      </p>
+    </section>
+
+    <section class="chat" id="chat">
+      <div class="message ascend-message">
+        <strong>ASCEND</strong>
+        <p>Hello. I'm ASCEND. What would you like to explore?</p>
+      </div>
+    </section>
+
+    <form class="input-area" id="chatForm">
+      <input
+        type="text"
+        id="userInput"
+        placeholder="Ask ASCEND anything..."
+        autocomplete="off"
+      >
+
+      <button type="submit">➤</button>
+    </form>
+
+  </main>
+
+  <script>
+    const form = document.getElementById("chatForm");
+    const input = document.getElementById("userInput");
+    const chat = document.getElementById("chat");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const text = input.value.trim();
+
+      if (!text) return;
+
+      const userMessage = document.createElement("div");
+      userMessage.className = "message user-message";
+
+      userMessage.innerHTML = `
+        <strong>You</strong>
+        <p>${text}</p>
+      `;
+
+      chat.appendChild(userMessage);
+
+      input.value = "";
+
+      const response = document.createElement("div");
+      response.className = "message ascend-message";
+
+      response.innerHTML = `
+        <strong>ASCEND</strong>
+        <p>I'm listening. Let's explore that together.</p>
+      `;
+
+      chat.appendChild(response);
+
+      chat.scrollTop = chat.scrollHeight;
+    });
+  </script>
+
 </body>
 </html>
