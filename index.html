@@ -44,7 +44,70 @@
 
   </main>
 
-  <script>
+  <script><script>
+  const form = document.getElementById("chatForm");
+  const input = document.getElementById("userInput");
+  const chat = document.getElementById("chat");
+
+  form.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    const userMessage = document.createElement("div");
+    userMessage.className = "message user-message";
+    userMessage.innerHTML = `
+      <strong>You</strong>
+      <p>${text}</p>
+    `;
+
+    chat.appendChild(userMessage);
+    input.value = "";
+
+    const thinking = document.createElement("div");
+    thinking.className = "message ascend-message";
+    thinking.innerHTML = `
+      <strong>ASCEND</strong>
+      <p>Thinking...</p>
+    `;
+
+    chat.appendChild(thinking);
+    chat.scrollTop = chat.scrollHeight;
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: text
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong.");
+      }
+
+      thinking.innerHTML = `
+        <strong>ASCEND</strong>
+        <p>${data.reply}</p>
+      `;
+
+    } catch (error) {
+      thinking.innerHTML = `
+        <strong>ASCEND</strong>
+        <p>I'm having trouble connecting right now. Please try again.</p>
+      `;
+    }
+
+    chat.scrollTop = chat.scrollHeight;
+  });
+</script>
     const form = document.getElementById("chatForm");
     const input = document.getElementById("userInput");
     const chat = document.getElementById("chat");
